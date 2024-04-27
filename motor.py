@@ -130,10 +130,11 @@ while not done:
         GPIO.output(Backward, False)
         GPIO.output(32, True)
 
-    if controller.get_axis(5) == -1 & controller.get_axis(4) == -1:
-        GPIO.output(Forward, False)
-        GPIO.output(Backward, False)
-        GPIO.output(32, True)
+    if controller.get_axis(5) == -1:
+        if controller.get_axis(4) == -1:
+            GPIO.output(Forward, False)
+            GPIO.output(Backward, False)
+            GPIO.output(32, True)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
