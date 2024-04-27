@@ -7,14 +7,31 @@ pygame.init()
 
 window = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Controller")
+#mysound1 = pygame.mixer.Sound('RoadRunnerBeepBeep.wav')
 
 controller = pygame.joystick.Joystick(0)
 
 done = False
 
+redPin = 12
+greenPin = 13
+bluePin = 15
+
+redPin2 = 16
+greenPin2 = 18
+bluePin2 = 19
+
+
 mode = GPIO.getmode()
 GPIO.setmode(GPIO.BOARD)
 
+GPIO.setup(redPin, GPIO.OUT)
+GPIO.setup(greenPin, GPIO.OUT)
+GPIO.setup(bluePin, GPIO.OUT)
+
+GPIO.setup(redPin2, GPIO.OUT)
+GPIO.setup(greenPin2, GPIO.OUT)
+GPIO.setup(bluePin2, GPIO.OUT)
 Forward = 26
 Backward = 24
 sleeptime = 1
@@ -30,13 +47,45 @@ servo1 = GPIO.PWM(11, 50)
 p.start(20)
 servo1.start(0)
 
+lights = False
+
+
+def turnOff():
+    GPIO.output(redPin, GPIO.HIGH)
+    GPIO.output(greenPin, GPIO.HIGH)
+    GPIO.output(bluePin, GPIO.HIGH)
+
+def blue():
+    GPIO.output(redPin, GPIO.HIGH)
+    GPIO.output(greenPin, GPIO.HIGH)
+    GPIO.output(bluePin, GPIO.LOW)
+
+    GPIO.output(redPin2, GPIO.LOW)
+    GPIO.output(greenPin2, GPIO.HIGH)
+    GPIO.output(bluePin2, GPIO.HIGH)
+
+def red():
+    GPIO.output(redPin, GPIO.LOW)
+    GPIO.output(greenPin, GPIO.HIGH)
+    GPIO.output(bluePin, GPIO.HIGH)
+
+    GPIO.output(redPin2, GPIO.HIGH)
+    GPIO.output(greenPin2, GPIO.HIGH)
+    GPIO.output(bluePin2, GPIO.LOW)
+
 while not done:
 
     if controller.get_button(0): #A
-        pygame.draw.rect(window, (255, 0, 0), [0, 0, 200, 600])
+        red()
+        time.sleep(.1)
+        turnOff()
+        blue()
+        time.sleep(.1)
+        turnOff()
 
-    # if controller.get_button(1): #B?
-    #     pygame.draw.rect(window, (0, 255, 0), [0, 0, 800, 600])
+    if controller.get_button(1): #B
+        #mysound1.play()
+        pygame.draw.rect(window, (0, 255, 0), [0, 0, 800, 600])
 
     # if controller.get_button(2): #Y?
     #     pygame.draw.rect(window, (0, 0, 255), [0, 0, 800, 600])
