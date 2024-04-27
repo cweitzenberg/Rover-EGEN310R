@@ -21,7 +21,6 @@ redPin2 = 16
 greenPin2 = 18
 bluePin2 = 19
 
-
 mode = GPIO.getmode()
 GPIO.setmode(GPIO.BOARD)
 
@@ -77,11 +76,6 @@ while not done:
 
     if controller.get_button(0): #A
         red()
-        time.sleep(.1)
-        turnOff()
-        blue()
-        time.sleep(.1)
-        turnOff()
 
     if controller.get_button(1): #B
         #mysound1.play()
